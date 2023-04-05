@@ -4,9 +4,10 @@ import { Cart } from '../../interfaces/CartsInterface'
 interface CartItemProps {
     cartItem: Cart,
     handleDelete: (id: number) => Promise<void>
+    isLoading: boolean
 }
 
-const CartItem = ({ cartItem, handleDelete }: CartItemProps) => {
+const CartItem = ({ cartItem, handleDelete, isLoading }: CartItemProps) => {
     return (
         <div className="card" style={{ width: '30rem' }} >
             <div className="row">
@@ -20,7 +21,7 @@ const CartItem = ({ cartItem, handleDelete }: CartItemProps) => {
                         </div>
                         <div className="card-bottom">
                             <p className="card-text">sisa stok: {cartItem.stok}</p>
-                            <button className="deleteBtn" onClick={() => handleDelete(cartItem.id)}>delete</button>
+                            <button className="deleteBtn" onClick={() => handleDelete(cartItem.id)} disabled={isLoading? true : false}>Delete</button>
                         </div>
 
                     </div>

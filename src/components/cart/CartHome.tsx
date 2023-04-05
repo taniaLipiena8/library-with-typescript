@@ -9,6 +9,7 @@ const CartHome = () => {
     const navigate = useNavigate()
     const { user_id } = useContext(UserContext) as UserContextType
     const [carts, setCarts] = useState<Cart[]>([])
+    const [loading, setLoading] = useState(false)
 
     const fetchCart = async () => {
         try {
@@ -33,7 +34,9 @@ const CartHome = () => {
     }, [])
 
     const handleDelete = async (id: number) => {
+        setLoading(true)
         try {
+
             const resp = await api.delete(`/perpustakaan/api/v1/cart?user_id=${user_id}&book_id=${id}`)
             if (resp.data.code === 200) {
                 alert(resp.data.message)
@@ -42,6 +45,8 @@ const CartHome = () => {
             }
         } catch (error) {
             console.log (error)
+        } finally{
+            setLoading(false)
         }
 
         fetchCart()
@@ -52,7 +57,7 @@ const CartHome = () => {
         <div className="Cart">
             <div className="Cart-list ">
                 {carts.map((cartItem) => (
-                    <CartItem cartItem = {cartItem} handleDelete={handleDelete} key={cartItem.id}/>
+                    <CartItem cartItem = {cartItem} handleDelete={handleDelete} key={cartItem.id} isLoading={loading}/>
                 ))}
             </div>
         </div>
